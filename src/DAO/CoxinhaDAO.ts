@@ -1,4 +1,5 @@
 import { executarComandoSQL } from "../database/mysql";
+import { CoxinhaResponseDTO } from "../model/dto/CoxinhaResponseDTO";
 import { Coxinha } from "../model/entidades/coxinha/Coxinha";
 
 export class CoxinhaDAO{
@@ -59,4 +60,15 @@ export class CoxinhaDAO{
                 console.error('Erro ao inserir coxinhas', err);
             }
         }
+    private async SelectCoxinhas():Promise<Coxinha[]>{
+        const query = `SELECT * FROM bancaCoxinha.coxinha 
+        ORDER BY sabor`;
+        try {
+            const resultado = await executarComandoSQL(query,[]);
+            return resultado.map((r:any) => new CoxinhaResponseDTO(r.sabor, r.preco))
+        } catch (error) {
+            console.log('Não foi possível exibir as coxinhas', error);
+            return [];
+        }
+    }
 }

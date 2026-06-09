@@ -1,6 +1,6 @@
 import express from "express";
 //import { setupSwagger } from "./config/Swagger";
-import { CoxinhaDAO } from "./repository/CoxinhaDAO";
+import { CoxinhaDAO } from "./DAO/CoxinhaDAO";
 
 const app = express();
 
