@@ -1,0 +1,52 @@
+import { Coxinha } from "../model/entidades/coxinha/Coxinha";
+
+export class CoxinhaDAO{
+    private static instance: CoxinhaDAO;
+
+    private constructor(){
+        this.CreateTableCoxinha();
+        this.InsertCoxinhas();
+    }
+
+    static getInstance(){
+        if(!this.instance){
+            this.instance = new CoxinhaDAO();
+        }
+        return this.instance;
+    }
+    
+     private async CreateTableCoxinha(){
+            const query = `CREATE TABLE IF NOT EXISTS bancaCoxinha.coxinha(
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            sabor VARCHAR(50) NOT NULL,
+            preco FLOAT NOT NULL
+            )`;
+            try{
+                //const resultado = await executarComandoSQL(query,[]);
+                //console.log('Tabela coxinha criada com sucesso: ', resultado);
+            }catch(err){
+                console.error('Erro ao criar tabela coxinha: ', err);
+            }
+        }
+
+    private async InsertCoxinhas(){
+            const query = `
+            INSERT IGNORE INTO bancaCoxinha.coxinha(sabor, preco)
+            VALUES
+            (?), (?), (?), (?), (?);
+            `;
+            const valores = [
+                'Carne', 9.00,
+                'Costela', 12.00,
+                'FrangoCatupiry', 10.00,
+                'Frango', 9.00,
+                'Queijo', 8.50
+            ];
+            try{
+                const resultado = await executarComandoSQL(query,valores);
+                console.log('Coxinhas inseridas com sucesso', resultado);
+            }catch(err){
+                console.error('Erro ao inserir coxinhas', err);
+            }
+        }
+}
