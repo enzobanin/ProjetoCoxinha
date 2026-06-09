@@ -11,6 +11,6 @@
   "scripts": {
     "start": "node dist/app.js",
     "build": "npx tsoa spec-and-routes && npx tsc",
-    "dev": "ts-node src.app.ts"
+    "dev": "ts-node src/app.ts"
   }
 }

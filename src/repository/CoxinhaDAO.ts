@@ -1,12 +1,18 @@
+import { executarComandoSQL } from "../database/mysql";
 import { Coxinha } from "../model/entidades/coxinha/Coxinha";
 
 export class CoxinhaDAO{
     private static instance: CoxinhaDAO;
 
     private constructor(){
-        this.CreateTableCoxinha();
-        this.InsertCoxinhas();
+        this.init();
     }
+
+    private async init(){
+        await this.CreateTableCoxinha();
+        await this.InsertCoxinhas();
+    }
+
 
     static getInstance(){
         if(!this.instance){
@@ -18,12 +24,12 @@ export class CoxinhaDAO{
      private async CreateTableCoxinha(){
             const query = `CREATE TABLE IF NOT EXISTS bancaCoxinha.coxinha(
             id INT AUTO_INCREMENT PRIMARY KEY,
-            sabor VARCHAR(50) NOT NULL,
+            sabor VARCHAR(50) NOT NULL UNIQUE,
             preco FLOAT NOT NULL
             )`;
             try{
-                //const resultado = await executarComandoSQL(query,[]);
-                //console.log('Tabela coxinha criada com sucesso: ', resultado);
+                const resultado = await executarComandoSQL(query,[]);
+                console.log('Tabela coxinha criada com sucesso: ', resultado);
             }catch(err){
                 console.error('Erro ao criar tabela coxinha: ', err);
             }
@@ -33,7 +39,11 @@ export class CoxinhaDAO{
             const query = `
             INSERT IGNORE INTO bancaCoxinha.coxinha(sabor, preco)
             VALUES
-            (?), (?), (?), (?), (?);
+            (?,?),
+            (?,?),
+            (?,?),
+            (?,?),
+            (?,?);
             `;
             const valores = [
                 'Carne', 9.00,
