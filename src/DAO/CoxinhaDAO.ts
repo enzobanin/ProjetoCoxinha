@@ -1,6 +1,5 @@
 import { executarComandoSQL } from "../database/mysql";
 import { CoxinhaResponseDTO } from "../model/dto/CoxinhaResponseDTO";
-import { Coxinha } from "../model/entidades/coxinha/Coxinha";
 
 export class CoxinhaDAO{
     private static instance: CoxinhaDAO;
@@ -10,8 +9,8 @@ export class CoxinhaDAO{
     }
 
     private async init(){
-        await this.CreateTableCoxinha();
-        await this.InsertCoxinhas();
+        await this.criarTabelaCoxinha();
+        await this.inserirCoxinhas();
     }
 
 
@@ -22,21 +21,21 @@ export class CoxinhaDAO{
         return this.instance;
     }
     
-     private async CreateTableCoxinha(){
-            const query = `CREATE TABLE IF NOT EXISTS bancaCoxinha.coxinha(
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            sabor VARCHAR(50) NOT NULL UNIQUE,
-            preco FLOAT NOT NULL
-            )`;
-            try{
-                const resultado = await executarComandoSQL(query,[]);
-                console.log('Tabela coxinha criada com sucesso: ', resultado);
-            }catch(err){
-                console.error('Erro ao criar tabela coxinha: ', err);
-            }
+    private async criarTabelaCoxinha(){
+        const query = `CREATE TABLE IF NOT EXISTS bancaCoxinha.coxinha(
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        sabor VARCHAR(50) NOT NULL UNIQUE,
+        preco FLOAT NOT NULL
+        )`;
+        try{
+            const resultado = await executarComandoSQL(query,[]);
+            console.log('Tabela coxinha criada com sucesso: ', resultado);
+        }catch(err){
+            console.error('Erro ao criar tabela coxinha: ', err);
         }
+    }
 
-    private async InsertCoxinhas(){
+    private async inserirCoxinhas(){
             const query = `
             INSERT IGNORE INTO bancaCoxinha.coxinha(sabor, preco)
             VALUES
@@ -60,7 +59,7 @@ export class CoxinhaDAO{
                 console.error('Erro ao inserir coxinhas', err);
             }
         }
-    private async SelectCoxinhas():Promise<Coxinha[]>{
+    public async listarCoxinhas():Promise<CoxinhaResponseDTO[]>{
         const query = `SELECT * FROM bancaCoxinha.coxinha 
         ORDER BY sabor`;
         try {

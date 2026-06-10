@@ -1,0 +1,94 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"CoxinhaResponseDTO": {
+				"properties": {
+					"sabor": {
+						"type": "string"
+					},
+					"preco": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"sabor",
+					"preco"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BasicResponseDTO_CoxinhaResponseDTO-Array_": {
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"object": {
+						"items": {
+							"$ref": "#/components/schemas/CoxinhaResponseDTO"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"message",
+					"object"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "API Documentacao",
+		"version": "1.0.0",
+		"description": "Documentacao da API usando Swagger"
+	},
+	"paths": {
+		"/catalogo/coxinha": {
+			"get": {
+				"operationId": "ListaCoxinhas",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDTO_CoxinhaResponseDTO-Array_"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDTO_CoxinhaResponseDTO-Array_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Coxinha"
+				],
+				"security": [],
+				"parameters": []
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "http://localhost:3090/api",
+			"description": "Servidor de Desenvolvimento"
+		}
+	]
+}
