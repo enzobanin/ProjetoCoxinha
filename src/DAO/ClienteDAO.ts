@@ -32,7 +32,7 @@ export class ClienteDAO{
             console.error('Erro ao criar tabela cliente: ', err);
         }
     }
-    public async InsertCliente(nome:string,email:string,
+    public async InserirCliente(nome:string,email:string,
         senha:string,saldo:number):Promise<ClienteResponseDTO|undefined>{
             try {
                 const resultado =  await executarComandoSQL(

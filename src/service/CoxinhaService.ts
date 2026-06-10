@@ -6,7 +6,7 @@ export class CoxinhaService{
    private static instance: CoxinhaService;
    private coxinhaDAO : CoxinhaDAO = CoxinhaDAO.getInstance();
 
-   private construtor(){}
+   private constructor(){}
 
     static getInstance(){
         if(!this.instance){
@@ -16,6 +16,6 @@ export class CoxinhaService{
     }
 
     async listarCoxinhas():Promise<CoxinhaResponseDTO[]>{
-        return this.coxinhaDAO.listarCoxinhas();
+        return await this.coxinhaDAO.listarCoxinhas();
     }
 }
