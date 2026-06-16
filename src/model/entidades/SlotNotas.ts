@@ -1,10 +1,11 @@
 export class SlotNotas{
-    private celulasDisponiveis = new Map<Number, Number>();
+    id:number;
+    valorCedula:number;
+    quantidade:number;
 
-//    public validarTroco(valor):Boolean{
-
-//    }
-//    public atualizarEstoque(valor):void{
-
-//    } 
+    constructor(id:number, valorCedula:number, quantidade: number){
+        this.id = id;
+        this.valorCedula = valorCedula;
+        this.quantidade = quantidade;
+    } 
 }

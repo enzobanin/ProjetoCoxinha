@@ -85,7 +85,7 @@ export class ClienteDAO{
         try {
             const query = `UPDATE bancaCoxinha.cliente SET saldo = ?
             WHERE id = ?`;
-            const resultado = await executarComandoSQL(query, [novoSaldo,id ]);
+            await executarComandoSQL(query, [novoSaldo,id ]);
             return true;
         } catch (error) {
             console.log("Saldo não atualizado", error);

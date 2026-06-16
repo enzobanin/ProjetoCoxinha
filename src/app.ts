@@ -2,6 +2,8 @@ import express from "express";
 import { setupSwagger } from "./config/Swagger";
 import { CoxinhaDAO } from "./DAO/CoxinhaDAO";
 import { RegisterRoutes } from "./route/routes";
+import { ClienteDAO } from "./DAO/ClienteDAO";
+import { SlotNotasDAO } from "./DAO/SlotNotasDAO";
 
 const app = express();
 
@@ -15,6 +17,8 @@ app.use('/api', apiRouter);
 
 
 CoxinhaDAO.getInstance();
+ClienteDAO.getInstance();
+SlotNotasDAO.getInstance();
 
 
 setupSwagger(app);
