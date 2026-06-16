@@ -82,4 +82,15 @@ export class SlotNotasDAO{
         }
         return undefined; 
     }
+    public async buscaTodosSlots():Promise<SlotNotas[]>{
+        const query = `SELECT * FROM bancaCoxinha.slotNotas
+        ORDER BY valorCedula`;
+        try {
+            const resultado = await executarComandoSQL(query,[]);
+            return resultado.map((r:any) => new SlotNotas(r.id,r.valorCedula, r.quantidade))
+        } catch (error) {
+            console.log('Não foi possível exibir as notas', error);
+            return [];
+        } 
+    }
 }
