@@ -1,5 +1,5 @@
-import { AguardandoPagamentoState } from "./interface/AguardandoPagamentoState";
-import { MovimentacaoState } from "./interface/MovimentacaoState";
+import { AguardandoPagamentoState } from "./interfaceState/AguardandoPagamentoState";
+import { MovimentacaoState } from "./interfaceState/MovimentacaoState";
 
 export class Movimentacao{
     private id:number;
