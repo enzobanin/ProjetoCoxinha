@@ -1,3 +1,6 @@
+import { AguardandoPagamentoState } from "./interface/AguardandoPagamentoState";
+import { MovimentacaoState } from "./interface/MovimentacaoState";
+
 export class Movimentacao{
     private id:number;
     private clienteId: number;
@@ -20,4 +23,34 @@ export class Movimentacao{
         this.tipoSabor = tipoSabor;
         this.statusPedido = new AguardandoPagamentoState();
     }
+
+    public getId():number{
+        return this.id;
+    }
+    public getClienteId():number{
+        return this.clienteId;
+    }
+    public getCoxinhaId():number{
+        return this.coxinhaId;
+    }
+    public getDataHora():Date{
+        return this.dataHora;
+    }
+    public getValorPago():number{
+        return this.valorPago;
+    }
+    public getTroco():number{
+        return this.troco;
+    }
+    public getTipoSabor():string{
+        return this.tipoSabor;
+    }
+
+    public getStatusPedido():string{
+        return this.statusPedido.getStatus(); 
+    }
+    public setStatusPedido(estado:MovimentacaoState):void{
+        this.statusPedido = estado;
+    }
+
 }
