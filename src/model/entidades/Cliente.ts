@@ -1,9 +1,9 @@
 export class Cliente{
-    id: number;
-    nome: string;
-    email:string;
-    senha:string;
-    saldo: number;
+    private id: number;
+    private nome: string;
+    private email:string;
+    private senha:string;
+    private saldo: number;
 
     constructor(id: number,
     nome: string,

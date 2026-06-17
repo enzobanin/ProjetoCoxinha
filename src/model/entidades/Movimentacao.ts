@@ -1,20 +1,23 @@
 export class Movimentacao{
     private id:number;
-    private LocalDateTime: Date;
-    private valorNota: number;
+    private clienteId: number;
+    private coxinhaId:number;
+    private dataHora: Date;
+    private valorPago: number;
+    private troco:number;
     private tipoSabor: string;
+    private statusPedido: MovimentacaoState;
 
-    constructor(id:number,
-    LocalDateTime: Date,
-    valorNota: number,
+    constructor(id:number,clienteId: number,coxinhaId:number,
+    dataHora: Date, valorPago: number,troco:number,
     tipoSabor: string){
         this.id = id;
-        this.LocalDateTime = LocalDateTime;
-        this.valorNota = valorNota;
+        this.clienteId = clienteId;
+        this.coxinhaId = coxinhaId;
+        this.dataHora = dataHora;
+        this.valorPago = valorPago;
+        this.troco = troco;
         this.tipoSabor = tipoSabor;
-    }
-
-    public processarTransacao():void{
-
+        this.statusPedido = new AguardandoPagamentoState();
     }
 }
