@@ -6,7 +6,7 @@ export class SlotNotasDAO{
 
     private constructor(){
         this.criarTabelaSlotNotas();
-        this.InserirSlotNotas();
+        this.inserirSlotNotas();
     }
 
     static getInstance(){
@@ -29,7 +29,7 @@ export class SlotNotasDAO{
             console.error('Erro ao criar tabela slotNotas: ', err);
         }
     } 
-    public async InserirSlotNotas(){
+    public async inserirSlotNotas(){
         const query =
         `INSERT IGNORE INTO bancaCoxinha.slotNotas(valorCedula, quantidade)
         VALUES

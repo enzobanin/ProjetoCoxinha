@@ -31,7 +31,7 @@ export class SlotNotasService{
 
         const todosSlots = await this.slotNotasDAO.buscaTodosSlots(); // vai retornar todas as 7 notas do banco
 
-        todosSlots.sort((a,b) => b.valorCedula - a.valorCedula) // vai ordenar do maior para o menor
+        todosSlots.sort((a,b) => b.getValorCedula() - a.getValorCedula()) // vai ordenar do maior para o menor
 
         const cedulasTroco = new Map<number,number>();
 
@@ -42,11 +42,11 @@ export class SlotNotasService{
             //vai conferir quantas cedulas desse valor cabe no troco restante
             //ex: Math.floor(12/10) = 1 → cabe 1 cédula de R$10
             //ex: Math.min(1, slot.quantidade) → não usa mais do que tem no caixa
-            const quantidade = Math.min(Math.floor(troco / slot.valorCedula), slot.quantidade);
+            const quantidade = Math.min(Math.floor(troco / slot.getValorCedula()), slot.getQuantidade());
             
             if(quantidade > 0){
-                cedulasTroco.set(slot.valorCedula, quantidade);
-                troco -= quantidade * slot.valorCedula //vai descontar do troco restante
+                cedulasTroco.set(slot.getValorCedula(), quantidade);
+                troco -= quantidade * slot.getValorCedula() //vai descontar do troco restante
             }
         }
 

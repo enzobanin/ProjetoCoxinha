@@ -8,4 +8,8 @@ export class SlotNotas{
         this.valorCedula = valorCedula;
         this.quantidade = quantidade;
     } 
+
+    public getId(): number { return this.id; }
+    public getValorCedula(): number { return this.valorCedula; }
+    public getQuantidade(): number { return this.quantidade; }
 }

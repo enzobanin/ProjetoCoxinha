@@ -16,9 +16,9 @@ export class ClienteService{
         return this.instance;
     }
 
-    public async InserirCliente(data:ClienteRequestDTO):Promise<ClienteResponseDTO|undefined>{
+    public async inserirCliente(data:ClienteRequestDTO):Promise<ClienteResponseDTO|undefined>{
         const{nome, email, senha} = data;
-        const clienteCriado = await this.clienteDAO.InserirCliente(nome, email, senha, 0); //saldo começa com 0
+        const clienteCriado = await this.clienteDAO.inserirCliente(nome, email, senha, 0); //saldo começa com 0
         if(!clienteCriado){
             throw new Error("Erro ao criar cliente");
         }

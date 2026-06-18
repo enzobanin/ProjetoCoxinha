@@ -16,7 +16,7 @@ export class ClienteController{
     @Body() dto:ClienteRequestDTO,
         @Res() fail: TsoaResponse<400,BasicResponseDTO<ClienteResponseDTO>>):Promise<BasicResponseDTO<ClienteResponseDTO>>{
         try{
-            const clienteCriado = await this.clienteService.InserirCliente(dto);
+            const clienteCriado = await this.clienteService.inserirCliente(dto);
             return new BasicResponseDTO<ClienteResponseDTO>(
                 "Cliente criado", 
                 clienteCriado!
