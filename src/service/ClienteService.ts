@@ -24,6 +24,9 @@ export class ClienteService{
         }
         return clienteCriado;
     }
+    public async buscarClientePorId(id: number): Promise<ClienteResponseDTO|undefined> {
+        return await this.clienteDAO.buscaClientePorId(id);
+    }
 
     public async fazerLogin(email:string, senha:string):Promise<ClienteResponseDTO|undefined>{
         const clienteLogado = await this.clienteDAO.fazerLogin(email, senha);

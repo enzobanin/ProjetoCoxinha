@@ -1,5 +1,11 @@
 import { executarComandoSQL } from "../database/mysql";
 import { CoxinhaResponseDTO } from "../model/dto/CoxinhaResponseDTO";
+import { Coxinha } from "../model/entidades/coxinha/Coxinha";
+import { CoxinhaCarneFactory } from "../model/entidades/factory/CoxinhaCarneFactory";
+import { CoxinhaCostelaFactory } from "../model/entidades/factory/CoxinhaCostelaFactory";
+import { CoxinhaFrangoCatupiryFactory } from "../model/entidades/factory/CoxinhaFrangoCatupiryFactory";
+import { CoxinhaFrangoFactory } from "../model/entidades/factory/CoxinhaFrangoFactory";
+import { CoxinhaQueijoFactory } from "../model/entidades/factory/CoxinhaQueijoFactory";
 
 export class CoxinhaDAO{
     private static instance: CoxinhaDAO;
@@ -59,6 +65,33 @@ export class CoxinhaDAO{
                 console.error('Erro ao inserir coxinhas', err);
             }
         }
+
+
+    public async buscaCoxinhaPorId(id:number):Promise<Coxinha|undefined>{
+        const query = `SELECT * FROM bancaCoxinha.coxinha
+        WHERE id = ?`;
+        try{
+            const resultado = await executarComandoSQL(query, [id])
+            if(resultado.length!==0){
+                const { sabor, preco } = resultado[0];
+                return this.criarCoxinhaPorSabor(sabor, id, preco);
+            }
+            return undefined;
+        }catch (error) {
+            console.log("Erro ao buscar Coxinha", error);
+            return undefined ;
+        }
+    }
+    private criarCoxinhaPorSabor(sabor: string, id: number, preco: number): Coxinha {
+    switch(sabor){
+        case 'Carne': return new CoxinhaCarneFactory().criarCoxinha(id, preco);
+        case 'Costela': return new CoxinhaCostelaFactory().criarCoxinha(id, preco);
+        case 'Frango': return new CoxinhaFrangoFactory().criarCoxinha(id, preco);
+        case 'FrangoCatupiry': return new CoxinhaFrangoCatupiryFactory().criarCoxinha(id, preco);
+        case 'Queijo': return new CoxinhaQueijoFactory().criarCoxinha(id, preco);
+        default: throw new Error(`Sabor ${sabor} não encontrado`);
+    }
+}
     public async listarCoxinhas():Promise<CoxinhaResponseDTO[]>{
         const query = `SELECT * FROM bancaCoxinha.coxinha 
         ORDER BY sabor`;

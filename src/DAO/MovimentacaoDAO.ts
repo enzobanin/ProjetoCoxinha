@@ -51,7 +51,7 @@ export class MovimentacaoDAO{
             return undefined ;
         }
     }
-    public async buscaTodosMovimentacoes():Promise<Movimentacao[]>{
+    public async buscaTodasMovimentacoes():Promise<Movimentacao[]>{
         const query = `SELECT * FROM bancaCoxinha.movimentacao`;
         try {
             const resultado = await executarComandoSQL(query,[]);
