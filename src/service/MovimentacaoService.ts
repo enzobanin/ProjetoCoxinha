@@ -1,6 +1,9 @@
 import { MovimentacaoDAO } from "../DAO/MovimentacaoDAO";
 import { MovimentacaoResponseDTO } from "../model/dto/MovimentacaoResponseDTO";
 import { Movimentacao } from "../model/entidades/Movimentacao";
+import { CalculoPrecoStrategy } from "../model/strategy/CalculoPrecoStrategy";
+import { PrecoPadraoStrategy } from "../model/strategy/PrecoPadraoStrategy";
+import { PrecoPromocionalStrategy } from "../model/strategy/PrecoPromocionalStrategy";
 import { ClienteService } from "./ClienteService";
 import { CoxinhaService } from "./CoxinhaService";
 import { SlotNotasService } from "./SlotNotasService";
@@ -27,7 +30,8 @@ export class MovimentacaoService{
         if(!coxinha){
             throw new Error("Coxinha não encontrada");
         }
-        const precoCoxinha = coxinha.getPreco()
+        const estrategia = this.escolherEstrategia(valorInserido)
+        const precoCoxinha = estrategia.calcular(coxinha.getPreco())
         //--Busca o cliente
         const cliente = await this.clienteService.buscarClientePorId(clienteId)
         if(!cliente){
@@ -45,7 +49,6 @@ export class MovimentacaoService{
        }
 
       return movimentacaoCriada
-       //return this.converterParaDTO(movimentacaoCriada)
     }
 
     public async buscarTodasMovimentacoes():Promise<MovimentacaoResponseDTO[]>{
@@ -106,20 +109,6 @@ export class MovimentacaoService{
        return await this.movimentacaoDao.inserirMovimentacao(movimentacao);
     }
 
-    //--FUNÇÃO QUE IRÁ RETORNAR MOVIMENTAÇÃO DTO PARA MOSTRAR NO FRONT-END
-    private converterParaDTO(movimentacaoCriada:Movimentacao):MovimentacaoResponseDTO{
-        return new MovimentacaoResponseDTO(
-        movimentacaoCriada.getId(),
-        movimentacaoCriada.getClienteId(),
-        movimentacaoCriada.getCoxinhaId(),
-        movimentacaoCriada.getDataHora(),
-        movimentacaoCriada.getValorPago(),
-        movimentacaoCriada.getTroco(),
-        movimentacaoCriada.getTipoSabor(),
-        movimentacaoCriada.getStatusPedido()
-       )
-    }
-
     //FUNÇÃO QUE DEVOLVE O SALDO PARA O CLIENTE NO ESTORNO
     private async devolverSaldo(movimentacao:Movimentacao){
         const cliente = await this.clienteService.buscarClientePorId(movimentacao.getClienteId());
@@ -129,5 +118,12 @@ export class MovimentacaoService{
         const valorEstornado = movimentacao.getValorPago() - movimentacao.getTroco();
         const novoSaldo = cliente.saldo + valorEstornado;
         await this.clienteService.atualizaSaldo(cliente.id, novoSaldo);
+    }
+
+    //FUNÇÃO QUE IRA ESCOLHER A ESTRATEGIA
+    private escolherEstrategia(valorInserido:number):CalculoPrecoStrategy{
+        if(valorInserido >= 20)
+            return new PrecoPromocionalStrategy()
+        return new PrecoPadraoStrategy()
     }
 }
