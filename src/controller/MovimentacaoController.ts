@@ -7,7 +7,7 @@ import { EstornarCoxinhaCommand } from "../model/command/EstornarCoxinhaCommand"
 import { ComprarCoxinhaCommand } from "../model/command/ComprarCoxinhaCommand";
 import { TrocarSaborCommand } from "../model/command/TrocarSaborCommand";
 
-@Route("Movimentações")
+@Route("movimentacoes")
 @Tags("Movimentações")
 export class MovimentacaoController{
     movimentacaoService = MovimentacaoService.getInstance();
@@ -51,7 +51,7 @@ export class MovimentacaoController{
             );
         }
     }
-    
+
     @Post("trocar-sabor")
     async trocarSabor(
         @Body() dto: {movimentacaoId: number, novaCoxinhaId: number},
