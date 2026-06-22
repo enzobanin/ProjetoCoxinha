@@ -96,4 +96,15 @@ export class MovimentacaoDAO{
             return false;
         } 
     }
+    public async atualizarSabor(id:number, novaCoxinhaId: number, novoSabor:string):Promise<boolean>{
+        try{
+            const query = `UPDATE bancaCoxinha.movimentacao SET coxinhaId = ?, tipoSabor = ?
+            WHERE id = ?`
+            await executarComandoSQL(query,[novaCoxinhaId,novoSabor, id])
+            return true;
+        }catch (error) {
+            console.log("Erro ao trocar sabor", error);
+            return false;
+        }
+    }
 }

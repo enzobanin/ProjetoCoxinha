@@ -66,6 +66,44 @@ export class MovimentacaoService{
         await this.movimentacaoDao.atualizarStatusMovimentacao(movimentacao.getId(), movimentacao.getStatusPedido());
     }
 
+    //FUNÇÃO PARA TROCAR O SABOR DE UMA MOVIMENTAÇÃO JÁ EXISTENTE
+    public async trocarSabor(movimentacaoId: number, novaCoxinhaId: number): Promise<boolean> {
+        //buscamos a movimentação e verificamos se existe
+        const movimentacao = await this.movimentacaoDao.buscaMovimentacaoPorId(movimentacaoId);
+        if(!movimentacao){
+            throw new Error("Movimentação não encontrada");
+        }
+        //só poderá ocorrer a troca se o status do pedido for 'Pago'
+        if(movimentacao.getStatusPedido() !== 'Pago'){
+            throw new Error("Só é possível trocar o sabor de pedidos pagos");
+        }
+        
+        //Buscamos as duas coxinhas para verificar se existe, a antiga e a nova que o cliente escolheu
+        const coxinhaAntiga = await this.coxinhaService.buscarCoxinhaPorId(movimentacao.getCoxinhaId());
+        const novaCoxinha = await this.coxinhaService.buscarCoxinhaPorId(novaCoxinhaId);
+        if(!coxinhaAntiga || !novaCoxinha){
+            throw new Error("Coxinha não encontrada");
+        }
+        
+        //verificamos se há diferença de preço entre elas
+        const diferenca = novaCoxinha.getPreco() - coxinhaAntiga.getPreco();
+        
+        //buscamos o cliente 
+        const cliente = await this.clienteService.buscarClientePorId(movimentacao.getClienteId());
+        if(!cliente){
+            throw new Error("Cliente não encontrado");
+        }
+        
+        //atualizamos o saldo dele
+        const novoSaldo = cliente.saldo - diferenca;
+        if(novoSaldo < 0){
+            throw new Error("Saldo insuficiente para trocar para esse sabor");
+        }
+        
+        await this.clienteService.atualizaSaldo(cliente.id, novoSaldo);
+        return await this.movimentacaoDao.atualizarSabor(movimentacaoId, novaCoxinhaId, novaCoxinha.getSabor());
+    }
+
 
 
     //---------------------------------------------------------------------------------
@@ -126,4 +164,5 @@ export class MovimentacaoService{
             return new PrecoPromocionalStrategy()
         return new PrecoPadraoStrategy()
     }
+    
 }

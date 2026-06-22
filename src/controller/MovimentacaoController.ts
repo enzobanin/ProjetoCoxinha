@@ -5,8 +5,9 @@ import { BasicResponseDTO } from "../model/dto/BasicResponseDTO";
 import { MovimentacaoResponseDTO } from "../model/dto/MovimentacaoResponseDTO";
 import { EstornarCoxinhaCommand } from "../model/command/EstornarCoxinhaCommand";
 import { ComprarCoxinhaCommand } from "../model/command/ComprarCoxinhaCommand";
+import { TrocarSaborCommand } from "../model/command/TrocarSaborCommand";
 
-@Route("pagar")
+@Route("Movimentações")
 @Tags("Movimentações")
 export class MovimentacaoController{
     movimentacaoService = MovimentacaoService.getInstance();
@@ -47,6 +48,21 @@ export class MovimentacaoController{
                     false
                 )
             );
+        }
+    }
+    @Post("trocar-sabor")
+    async trocarSabor(
+        @Body() dto: {movimentacaoId: number, novaCoxinhaId: number},
+        @Res() fail: TsoaResponse<400, BasicResponseDTO<boolean>>
+    ): Promise<BasicResponseDTO<boolean>> {
+        try {
+            const command = new TrocarSaborCommand(this.movimentacaoService, dto.movimentacaoId, dto.novaCoxinhaId);
+            const resultado = await command.executar();
+            return new BasicResponseDTO("Sabor trocado com sucesso", resultado);
+        } catch(error: any) {
+            return fail(400, new BasicResponseDTO<boolean>(
+                error.message || "Erro ao trocar sabor", false
+            ));
         }
     }
 
