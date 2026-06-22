@@ -21,7 +21,7 @@ export class MovimentacaoController{
             );
         }catch (error:any) {
             return fail(400, new BasicResponseDTO<Movimentacao>(
-                error.message || "Erro ao criar Cliente", null as any
+                error.message || "Erro ao criar Movimentação", null as any
             ));
         }
     }

@@ -1,11 +1,11 @@
 import { executarComandoSQL } from "../database/mysql";
 import { CoxinhaResponseDTO } from "../model/dto/CoxinhaResponseDTO";
 import { Coxinha } from "../model/entidades/coxinha/Coxinha";
-import { CoxinhaCarneFactory } from "../model/entidades/factory/CoxinhaCarneFactory";
-import { CoxinhaCostelaFactory } from "../model/entidades/factory/CoxinhaCostelaFactory";
-import { CoxinhaFrangoCatupiryFactory } from "../model/entidades/factory/CoxinhaFrangoCatupiryFactory";
-import { CoxinhaFrangoFactory } from "../model/entidades/factory/CoxinhaFrangoFactory";
-import { CoxinhaQueijoFactory } from "../model/entidades/factory/CoxinhaQueijoFactory";
+import { CoxinhaCarneFactory } from "../model/entidades/factoryCoxinha/CoxinhaCarneFactory";
+import { CoxinhaCostelaFactory } from "../model/entidades/factoryCoxinha/CoxinhaCostelaFactory";
+import { CoxinhaFrangoCatupiryFactory } from "../model/entidades/factoryCoxinha/CoxinhaFrangoCatupiryFactory";
+import { CoxinhaFrangoFactory } from "../model/entidades/factoryCoxinha/CoxinhaFrangoFactory";
+import { CoxinhaQueijoFactory } from "../model/entidades/factoryCoxinha/CoxinhaQueijoFactory";
 
 export class CoxinhaDAO{
     private static instance: CoxinhaDAO;

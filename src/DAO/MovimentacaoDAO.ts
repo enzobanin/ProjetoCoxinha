@@ -1,6 +1,7 @@
 import { executarComandoSQL } from "../database/mysql";
 import { MovimentacaoResponseDTO } from "../model/dto/MovimentacaoResponseDTO";
 import { Movimentacao } from "../model/entidades/Movimentacao";
+import { MovimentacaoStateFactory } from "../model/MovimentacaoStateFactory/MovimentacaoStateFactory";
 
 
 export class MovimentacaoDAO{
@@ -53,20 +54,23 @@ export class MovimentacaoDAO{
             return undefined ;
         }
     }
-    public async buscaMovimentacaoPorId(id:number):Promise<MovimentacaoResponseDTO|undefined>{
+    public async buscaMovimentacaoPorId(id:number):Promise<Movimentacao|undefined>{
         const query = `SELECT * FROM bancaCoxinha.movimentacao
         WHERE id = ?`
         const resultado = await executarComandoSQL(query, [id]);
         if(resultado.length!==0){
-            return new MovimentacaoResponseDTO(
+            const movimentacao = new Movimentacao(
                 resultado[0].id, 
                 resultado[0].clienteId,
                 resultado[0].coxinhaId, 
                 resultado[0].dataHora,
                 resultado[0].valorPago,
                 resultado[0].troco,
-                resultado[0].tipoSabor,
-                resultado[0].statusPedido);
+                resultado[0].tipoSabor);
+
+            const estado = MovimentacaoStateFactory.criar(resultado[0].statusPedido);
+            movimentacao.setStatusPedido(estado);
+            return movimentacao;
         }
         return undefined;
     }
@@ -79,6 +83,17 @@ export class MovimentacaoDAO{
         } catch (error) {
             console.log('Não foi possível exibir as movimentações', error);
             return [];
+        } 
+    }
+    public async atualizarStatusMovimentacao(id:number, estado:string):Promise<boolean>{
+        try {
+            const query = `UPDATE bancaCoxinha.movimentacao SET statusPedido = ?
+            WHERE id = ?`;
+            await executarComandoSQL(query, [estado,id]);
+            return true;
+        } catch (error) {
+            console.log("Status não atualizado", error);
+            return false;
         } 
     }
 }

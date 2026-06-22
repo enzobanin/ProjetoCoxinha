@@ -52,6 +52,22 @@ export class MovimentacaoService{
         return await this.movimentacaoDao.buscaTodasMovimentacoes();
     }
 
+    public async estornarMovimentacao(id:number){
+        const movimentacao = await this.movimentacaoDao.buscaMovimentacaoPorId(id);
+        if(!movimentacao){
+            throw new Error("Movimentação não encontrada")
+        }
+        movimentacao.estornar();
+        await this.devolverSaldo(movimentacao)
+        await this.movimentacaoDao.atualizarStatusMovimentacao(movimentacao.getId(), movimentacao.getStatusPedido());
+    }
+
+
+
+    //---------------------------------------------------------------------------------
+
+
+
     //Funções Auxiliares de inserirMovimentação (vamos quebra-la em algumas funções para a melhor compreensao - serão todas private)
     //--CALCULARÁ O TROCO--
     private async calcularValorTroco(valorInserido:number, precoCoxinha:number):Promise<number>{
@@ -64,7 +80,6 @@ export class MovimentacaoService{
         }
         return valorTroco;
     }
-
     //--FUNÇÃO PARA ATUALIZAR O SALDO DO CLIENTE--
     private async atualizarSaldoCliente(clienteId:number, saldoAtual:number, valorInserido:number, valorTroco:number):Promise<void>{
         //vai atualizar o saldo do cliente. O saldo atual menos o valor inserido (pago pelo cliente)
@@ -104,6 +119,14 @@ export class MovimentacaoService{
        )
     }
 
-
-
+    //FUNÇÃO QUE DEVOLVE O SALDO PARA O CLIENTE NO ESTORNO
+    private async devolverSaldo(movimentacao:Movimentacao){
+        const cliente = await this.clienteService.buscarClientePorId(movimentacao.getClienteId());
+        if(!cliente){
+            throw new Error("Cliente não encontrado");
+        }
+        const valorEstornado = movimentacao.getValorPago() - movimentacao.getTroco();
+        const novoSaldo = cliente.saldo + valorEstornado;
+        await this.clienteService.atualizaSaldo(cliente.id, novoSaldo);
+    }
 }
