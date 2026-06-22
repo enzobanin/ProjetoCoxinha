@@ -3,6 +3,8 @@ import { MovimentacaoService } from "../service/MovimentacaoService";
 import { Movimentacao } from "../model/entidades/Movimentacao";
 import { BasicResponseDTO } from "../model/dto/BasicResponseDTO";
 import { MovimentacaoResponseDTO } from "../model/dto/MovimentacaoResponseDTO";
+import { EstornarCoxinhaCommand } from "../model/command/EstornarCoxinhaCommand";
+import { ComprarCoxinhaCommand } from "../model/command/ComprarCoxinhaCommand";
 
 @Route("pagar")
 @Tags("Movimentações")
@@ -14,7 +16,8 @@ export class MovimentacaoController{
     @Body() movimentacao:{clienteId:number,coxinhaId:number, valorInserido:number},
         @Res() fail: TsoaResponse<400,BasicResponseDTO<Movimentacao>>):Promise<BasicResponseDTO<MovimentacaoResponseDTO>>{
         try{
-            const movimentacaoCriada = await this.movimentacaoService.inserirMovimentacao(movimentacao.clienteId, movimentacao.coxinhaId, movimentacao.valorInserido);
+            const command = new ComprarCoxinhaCommand(this.movimentacaoService,movimentacao.clienteId, movimentacao.coxinhaId, movimentacao.valorInserido);
+            const movimentacaoCriada = await command.executar();
             return new BasicResponseDTO<MovimentacaoResponseDTO>(
                 "Movimentacao criada", 
                 movimentacaoCriada!
@@ -30,7 +33,8 @@ export class MovimentacaoController{
     @Body() dto:{id:number},
     @Res() fail: TsoaResponse<400,BasicResponseDTO<boolean>>):Promise<BasicResponseDTO<boolean>>{
     try {
-        await this.movimentacaoService.estornarMovimentacao(dto.id);
+        const command = new EstornarCoxinhaCommand(this.movimentacaoService, dto.id);
+        await command.executar();
         return new BasicResponseDTO(
             "Movimentação estornada com sucesso",
             true
