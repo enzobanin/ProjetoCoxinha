@@ -90,7 +90,9 @@ export class MovimentacaoService{
         }
         
         //verificamos se há diferença de preço entre elas
-        const diferenca = novaCoxinha.getPreco() - coxinhaAntiga.getPreco();
+        //pegamos o preco que o cliente pagou, pois as vezes teremos desconto
+        const precoRealmentePagoPeloCliente = movimentacao.getValorPago() - movimentacao.getTroco()
+        const diferenca = novaCoxinha.getPreco() - precoRealmentePagoPeloCliente
         
         //buscamos o cliente 
         const cliente = await this.clienteService.buscarClientePorId(movimentacao.getClienteId());
