@@ -44,9 +44,8 @@ export class MovimentacaoService{
         return undefined;
        }
 
-       //mudando o estado de 'Aguardando Pagamento' para 'Pago'
-       movimentacaoCriada.pagar();
-       return this.converterParaDTO(movimentacaoCriada)
+      return movimentacaoCriada
+       //return this.converterParaDTO(movimentacaoCriada)
     }
 
     public async buscarTodasMovimentacoes():Promise<MovimentacaoResponseDTO[]>{
@@ -76,7 +75,7 @@ export class MovimentacaoService{
     //--FUNÇÃO PARA CRIAR A MOVIMENTAÇÃO NO BANCO CHAMANDO O DAO DE MOVIMENTAÇÃO--
     private async criarMovimentacao(clienteId:number, coxinhaId:number, valorInserido:number,
         valorTroco:number, sabor:string
-    ):Promise<Movimentacao|undefined>{
+    ):Promise<MovimentacaoResponseDTO|undefined>{
         const movimentacao = new Movimentacao(
             0,
             clienteId,
@@ -86,6 +85,8 @@ export class MovimentacaoService{
             valorTroco,
             sabor
         );
+        //mudando o estado de 'Aguardando Pagamento' para 'Pago'
+       movimentacao.pagar();
        return await this.movimentacaoDao.inserirMovimentacao(movimentacao);
     }
 

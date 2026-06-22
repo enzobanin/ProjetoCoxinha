@@ -25,7 +25,7 @@ export class MovimentacaoDAO{
         dataHora DATETIME NOT NULL, 
         valorPago FLOAT NOT NULL, 
         troco FLOAT NOT NULL, 
-        tipoSabor VARCHAR(20) NOT NULL
+        tipoSabor VARCHAR(20) NOT NULL,
         statusPedido VARCHAR(30) NOT NULL
         )`;
         try{
@@ -35,7 +35,7 @@ export class MovimentacaoDAO{
             console.error('Erro ao criar tabela Movimentacao: ', err);
         }
     } 
-    public async inserirMovimentacao(movimentacao:Movimentacao):Promise<Movimentacao|undefined>{
+    public async inserirMovimentacao(movimentacao:Movimentacao):Promise<MovimentacaoResponseDTO|undefined>{
         try {
             const resultado =  await executarComandoSQL(
             `INSERT INTO bancaCoxinha.movimentacao(
@@ -46,26 +46,27 @@ export class MovimentacaoDAO{
             ]
             );
             console.log('Movimentacao inserida com sucesso: ', resultado);
-            return new Movimentacao(resultado.insertId,movimentacao.getClienteId(), movimentacao.getCoxinhaId(), movimentacao.getDataHora(),
-                movimentacao.getValorPago(),movimentacao.getTroco(),movimentacao.getTipoSabor());
+            return new MovimentacaoResponseDTO(resultado.insertId,movimentacao.getClienteId(), movimentacao.getCoxinhaId(), movimentacao.getDataHora(),
+                movimentacao.getValorPago(),movimentacao.getTroco(),movimentacao.getTipoSabor(), movimentacao.getStatusPedido());
         } catch (error) {
-            console.log("Erro ao cadastrar cliente", error);
+            console.log("Erro ao cadastrar movimentacao", error);
             return undefined ;
         }
     }
-    public async buscaMovimentacaoPorId(id:number):Promise<Movimentacao|undefined>{
+    public async buscaMovimentacaoPorId(id:number):Promise<MovimentacaoResponseDTO|undefined>{
         const query = `SELECT * FROM bancaCoxinha.movimentacao
         WHERE id = ?`
         const resultado = await executarComandoSQL(query, [id]);
         if(resultado.length!==0){
-            return new Movimentacao(
+            return new MovimentacaoResponseDTO(
                 resultado[0].id, 
                 resultado[0].clienteId,
                 resultado[0].coxinhaId, 
                 resultado[0].dataHora,
                 resultado[0].valorPago,
                 resultado[0].troco,
-                resultado[0].tipoSabor);
+                resultado[0].tipoSabor,
+                resultado[0].statusPedido);
         }
         return undefined;
     }
@@ -73,8 +74,8 @@ export class MovimentacaoDAO{
         const query = `SELECT * FROM bancaCoxinha.movimentacao`;
         try {
             const resultado = await executarComandoSQL(query,[]);
-            return resultado.map((r:any) => new Movimentacao(r.id, r.clienteId, r.coxinhaId, 
-                r.dataHora,r.valorPago,r.troco,r.tipoSabor));
+            return resultado.map((r:any) => new MovimentacaoResponseDTO(r.id, r.clienteId, r.coxinhaId, 
+                r.dataHora,r.valorPago,r.troco,r.tipoSabor,r.statusPedido));
         } catch (error) {
             console.log('Não foi possível exibir as movimentações', error);
             return [];
