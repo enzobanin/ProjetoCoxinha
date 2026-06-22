@@ -232,7 +232,7 @@
 		"description": "Documentacao da API usando Swagger"
 	},
 	"paths": {
-		"/Movimentações": {
+		"/movimentacoes": {
 			"post": {
 				"operationId": "InserirMovimentacao",
 				"responses": {
@@ -323,7 +323,7 @@
 				"parameters": []
 			}
 		},
-		"/Movimentações/estornar": {
+		"/movimentacoes/estornar": {
 			"post": {
 				"operationId": "EstornarMovimentacao",
 				"responses": {
@@ -374,7 +374,7 @@
 				}
 			}
 		},
-		"/Movimentações/trocar-sabor": {
+		"/movimentacoes/trocar-sabor": {
 			"post": {
 				"operationId": "TrocarSabor",
 				"responses": {

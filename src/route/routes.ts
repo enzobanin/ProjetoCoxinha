@@ -143,7 +143,7 @@ export function RegisterRoutes(app: Router) {
                 movimentacao: {"in":"body","name":"movimentacao","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"valorInserido":{"dataType":"double","required":true},"coxinhaId":{"dataType":"double","required":true},"clienteId":{"dataType":"double","required":true}}},
                 fail: {"in":"res","name":"400","required":true,"ref":"BasicResponseDTO_Movimentacao_"},
         };
-        app.post('/Movimentações',
+        app.post('/movimentacoes',
             ...(fetchMiddlewares<RequestHandler>(MovimentacaoController)),
             ...(fetchMiddlewares<RequestHandler>(MovimentacaoController.prototype.inserirMovimentacao)),
 
@@ -174,7 +174,7 @@ export function RegisterRoutes(app: Router) {
                 dto: {"in":"body","name":"dto","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"double","required":true}}},
                 fail: {"in":"res","name":"400","required":true,"ref":"BasicResponseDTO_boolean_"},
         };
-        app.post('/Movimentações/estornar',
+        app.post('/movimentacoes/estornar',
             ...(fetchMiddlewares<RequestHandler>(MovimentacaoController)),
             ...(fetchMiddlewares<RequestHandler>(MovimentacaoController.prototype.estornarMovimentacao)),
 
@@ -205,7 +205,7 @@ export function RegisterRoutes(app: Router) {
                 dto: {"in":"body","name":"dto","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"novaCoxinhaId":{"dataType":"double","required":true},"movimentacaoId":{"dataType":"double","required":true}}},
                 fail: {"in":"res","name":"400","required":true,"ref":"BasicResponseDTO_boolean_"},
         };
-        app.post('/Movimentações/trocar-sabor',
+        app.post('/movimentacoes/trocar-sabor',
             ...(fetchMiddlewares<RequestHandler>(MovimentacaoController)),
             ...(fetchMiddlewares<RequestHandler>(MovimentacaoController.prototype.trocarSabor)),
 
@@ -235,7 +235,7 @@ export function RegisterRoutes(app: Router) {
         const argsMovimentacaoController_listaMovimentacoes: Record<string, TsoaRoute.ParameterSchema> = {
                 fail: {"in":"res","name":"400","required":true,"ref":"BasicResponseDTO_MovimentacaoResponseDTO-Array_"},
         };
-        app.get('/Movimentações',
+        app.get('/movimentacoes',
             ...(fetchMiddlewares<RequestHandler>(MovimentacaoController)),
             ...(fetchMiddlewares<RequestHandler>(MovimentacaoController.prototype.listaMovimentacoes)),
 

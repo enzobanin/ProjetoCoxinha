@@ -38,8 +38,12 @@ export class MovimentacaoService{
             throw new Error("Cliente não encontrado");
         }
         //vamos calcular o troco em outra função privada desta classe
-        const valorTroco = await this.calcularValorTroco(valorInserido, precoCoxinha )
-        
+        const valorTroco = await this.calcularValorTroco(valorInserido, precoCoxinha)
+        //verifica se há saldo
+        const novoSaldo = cliente.saldo - valorInserido + valorTroco;
+        if(novoSaldo < 0){
+            throw new Error("Saldo insuficiente para realizar essa compra");
+        }
         //chama a função para atualizar o saldo do cliente
         await this.atualizarSaldoCliente(clienteId, cliente.saldo, valorInserido, valorTroco);
         // cria a movimentação 
