@@ -1,8 +1,7 @@
-import { Body, Get, Post, Put, Query, Res, Route, Tags, TsoaResponse } from "tsoa";
+import { Body, Post, Put, Query, Res, Route, Tags, TsoaResponse } from "tsoa";
 import { ClienteService } from "../service/ClienteService";
 import { ClienteResponseDTO } from "../model/dto/ClienteResponseDTO";
 import { BasicResponseDTO } from "../model/dto/BasicResponseDTO";
-import { Cliente } from "../model/entidades/Cliente";
 import { ClienteRequestDTO } from "../model/dto/ClienteRequestDTO";
 
 @Route("login/cliente")

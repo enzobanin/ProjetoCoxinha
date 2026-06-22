@@ -4,6 +4,8 @@
 import type { TsoaRoute } from '@tsoa/runtime';
 import {  fetchMiddlewares, ExpressTemplateService } from '@tsoa/runtime';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { MovimentacaoController } from './../controller/MovimentacaoController';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { CoxinhaController } from './../controller/CoxinhaController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { ClienteController } from './../controller/ClienteController';
@@ -14,6 +16,31 @@ import type { Request as ExRequest, Response as ExResponse, RequestHandler, Rout
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
 const models: TsoaRoute.Models = {
+    "Movimentacao": {
+        "dataType": "refObject",
+        "properties": {
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "BasicResponseDTO_Movimentacao_": {
+        "dataType": "refObject",
+        "properties": {
+            "message": {"dataType":"string","required":true},
+            "object": {"ref":"Movimentacao","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "BasicResponseDTO_Movimentacao-Array_": {
+        "dataType": "refObject",
+        "properties": {
+            "message": {"dataType":"string","required":true},
+            "object": {"dataType":"array","array":{"dataType":"refObject","ref":"Movimentacao"},"required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "CoxinhaResponseDTO": {
         "dataType": "refObject",
         "properties": {
@@ -88,6 +115,67 @@ export function RegisterRoutes(app: Router) {
 
 
     
+        const argsMovimentacaoController_inserirMovimentacao: Record<string, TsoaRoute.ParameterSchema> = {
+                movimentacao: {"in":"body","name":"movimentacao","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"valorInserido":{"dataType":"double","required":true},"coxinhaId":{"dataType":"double","required":true},"clienteId":{"dataType":"double","required":true}}},
+                fail: {"in":"res","name":"400","required":true,"ref":"BasicResponseDTO_Movimentacao_"},
+        };
+        app.post('/pagar',
+            ...(fetchMiddlewares<RequestHandler>(MovimentacaoController)),
+            ...(fetchMiddlewares<RequestHandler>(MovimentacaoController.prototype.inserirMovimentacao)),
+
+            async function MovimentacaoController_inserirMovimentacao(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsMovimentacaoController_inserirMovimentacao, request, response });
+
+                const controller = new MovimentacaoController();
+
+              await templateService.apiHandler({
+                methodName: 'inserirMovimentacao',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsMovimentacaoController_listaMovimentacoes: Record<string, TsoaRoute.ParameterSchema> = {
+                fail: {"in":"res","name":"400","required":true,"ref":"BasicResponseDTO_Movimentacao-Array_"},
+        };
+        app.get('/pagar',
+            ...(fetchMiddlewares<RequestHandler>(MovimentacaoController)),
+            ...(fetchMiddlewares<RequestHandler>(MovimentacaoController.prototype.listaMovimentacoes)),
+
+            async function MovimentacaoController_listaMovimentacoes(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsMovimentacaoController_listaMovimentacoes, request, response });
+
+                const controller = new MovimentacaoController();
+
+              await templateService.apiHandler({
+                methodName: 'listaMovimentacoes',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsCoxinhaController_listaCoxinhas: Record<string, TsoaRoute.ParameterSchema> = {
                 fail: {"in":"res","name":"400","required":true,"ref":"BasicResponseDTO_CoxinhaResponseDTO-Array_"},
         };

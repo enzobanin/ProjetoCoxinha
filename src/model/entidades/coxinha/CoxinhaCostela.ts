@@ -6,6 +6,6 @@ export class CoxinhaCostela extends Coxinha{
     }
 
     public getSabor(): string {
-        return 'Frango';
+        return 'Costela';
     }
 }

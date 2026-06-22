@@ -7,6 +7,46 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
+			"Movimentacao": {
+				"properties": {},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BasicResponseDTO_Movimentacao_": {
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"object": {
+						"$ref": "#/components/schemas/Movimentacao"
+					}
+				},
+				"required": [
+					"message",
+					"object"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BasicResponseDTO_Movimentacao-Array_": {
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"object": {
+						"items": {
+							"$ref": "#/components/schemas/Movimentacao"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"message",
+					"object"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"CoxinhaResponseDTO": {
 				"properties": {
 					"sabor": {
@@ -130,6 +170,97 @@
 		"description": "Documentacao da API usando Swagger"
 	},
 	"paths": {
+		"/pagar": {
+			"post": {
+				"operationId": "InserirMovimentacao",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDTO_Movimentacao_"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDTO_Movimentacao_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Movimentações"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"valorInserido": {
+										"type": "number",
+										"format": "double"
+									},
+									"coxinhaId": {
+										"type": "number",
+										"format": "double"
+									},
+									"clienteId": {
+										"type": "number",
+										"format": "double"
+									}
+								},
+								"required": [
+									"valorInserido",
+									"coxinhaId",
+									"clienteId"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "ListaMovimentacoes",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDTO_Movimentacao-Array_"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDTO_Movimentacao-Array_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Movimentações"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
 		"/catalogo/coxinha": {
 			"get": {
 				"operationId": "ListaCoxinhas",

@@ -11,7 +11,6 @@ export class CoxinhaController extends Controller{
     @Get()
     async listaCoxinhas(
         @Res() fail: TsoaResponse<400,BasicResponseDTO<CoxinhaResponseDTO[]>>,
-        //@Res() success: TsoaResponse<200,BasicResponseDTO<CoxinhaResponseDTO[]>>,
     ):Promise<BasicResponseDTO<CoxinhaResponseDTO[]>>{
         try {
             const resultado = await this.coxinhaService.listarCoxinhas();
