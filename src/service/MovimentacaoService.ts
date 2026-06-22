@@ -28,12 +28,34 @@ export class MovimentacaoService{
             throw new Error("Coxinha não encontrada");
         }
         const precoCoxinha = coxinha.getPreco()
-
         //--Busca o cliente
         const cliente = await this.clienteService.buscarClientePorId(clienteId)
         if(!cliente){
             throw new Error("Cliente não encontrado");
         }
+        //vamos calcular o troco em outra função privada desta classe
+        const valorTroco = await this.calcularValorTroco(valorInserido, precoCoxinha )
+        
+        //chama a função para atualizar o saldo do cliente
+        await this.atualizarSaldoCliente(clienteId, cliente.saldo, valorInserido, valorTroco);
+        // cria a movimentação 
+       const movimentacaoCriada = await this.criarMovimentacao(clienteId, coxinhaId, valorInserido, valorTroco, coxinha.getSabor());
+       if(!movimentacaoCriada){
+        return undefined;
+       }
+
+       //mudando o estado de 'Aguardando Pagamento' para 'Pago'
+       movimentacaoCriada.pagar();
+       return this.converterParaDTO(movimentacaoCriada)
+    }
+
+    public async buscarTodasMovimentacoes():Promise<MovimentacaoResponseDTO[]>{
+        return await this.movimentacaoDao.buscaTodasMovimentacoes();
+    }
+
+    //Funções Auxiliares de inserirMovimentação (vamos quebra-la em algumas funções para a melhor compreensao - serão todas private)
+    //--CALCULARÁ O TROCO--
+    private async calcularValorTroco(valorInserido:number, precoCoxinha:number):Promise<number>{
         //--Busca o troco
         const troco = await this.slotNotasService.processarPagamento(valorInserido, precoCoxinha)
         // troco é o Map<number,number> - vamos calcular o valor total do troco em número
@@ -41,6 +63,20 @@ export class MovimentacaoService{
         for(const [valorCedula, quantidade] of troco){
             valorTroco += valorCedula * quantidade;
         }
+        return valorTroco;
+    }
+
+    //--FUNÇÃO PARA ATUALIZAR O SALDO DO CLIENTE--
+    private async atualizarSaldoCliente(clienteId:number, saldoAtual:number, valorInserido:number, valorTroco:number):Promise<void>{
+        //vai atualizar o saldo do cliente. O saldo atual menos o valor inserido (pago pelo cliente)
+        //mais o valor do troco (caso houver)
+        const novoSaldo = saldoAtual - valorInserido + valorTroco;
+        await this.clienteService.atualizaSaldo(clienteId, novoSaldo);
+    }
+    //--FUNÇÃO PARA CRIAR A MOVIMENTAÇÃO NO BANCO CHAMANDO O DAO DE MOVIMENTAÇÃO--
+    private async criarMovimentacao(clienteId:number, coxinhaId:number, valorInserido:number,
+        valorTroco:number, sabor:string
+    ):Promise<Movimentacao|undefined>{
         const movimentacao = new Movimentacao(
             0,
             clienteId,
@@ -48,17 +84,14 @@ export class MovimentacaoService{
             new Date(),
             valorInserido,
             valorTroco,
-            coxinha.getSabor()
+            sabor
         );
-       const movimentacaoCriada = await this.movimentacaoDao.inserirMovimentacao(movimentacao);
-       movimentacaoCriada; 
-       if(!movimentacaoCriada){
-        return undefined;
-       }
+       return await this.movimentacaoDao.inserirMovimentacao(movimentacao);
+    }
 
-       //mudando o estado de 'Aguardando Pagamento' para 'Pago'
-       movimentacaoCriada.pagar();
-       return new MovimentacaoResponseDTO(
+    //--FUNÇÃO QUE IRÁ RETORNAR MOVIMENTAÇÃO DTO PARA MOSTRAR NO FRONT-END
+    private converterParaDTO(movimentacaoCriada:Movimentacao):MovimentacaoResponseDTO{
+        return new MovimentacaoResponseDTO(
         movimentacaoCriada.getId(),
         movimentacaoCriada.getClienteId(),
         movimentacaoCriada.getCoxinhaId(),
@@ -70,7 +103,6 @@ export class MovimentacaoService{
        )
     }
 
-    public async buscarTodasMovimentacoes():Promise<MovimentacaoResponseDTO[]>{
-        return await this.movimentacaoDao.buscaTodasMovimentacoes();
-    }
+
+
 }

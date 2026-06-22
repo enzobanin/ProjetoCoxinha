@@ -52,6 +52,22 @@ export class MovimentacaoDAO{
             return undefined ;
         }
     }
+    public async buscaMovimentacaoPorId(id:number):Promise<Movimentacao|undefined>{
+        const query = `SELECT * FROM bancaCoxinha.movimentacao
+        WHERE id = ?`
+        const resultado = await executarComandoSQL(query, [id]);
+        if(resultado.length!==0){
+            return new Movimentacao(
+                resultado[0].id, 
+                resultado[0].clienteId,
+                resultado[0].coxinhaId, 
+                resultado[0].dataHora,
+                resultado[0].valorPago,
+                resultado[0].troco,
+                resultado[0].tipoSabor);
+        }
+        return undefined;
+    }
     public async buscaTodasMovimentacoes():Promise<MovimentacaoResponseDTO[]>{
         const query = `SELECT * FROM bancaCoxinha.movimentacao`;
         try {
