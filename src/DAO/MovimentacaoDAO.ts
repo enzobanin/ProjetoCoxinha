@@ -1,4 +1,5 @@
 import { executarComandoSQL } from "../database/mysql";
+import { MovimentacaoResponseDTO } from "../model/dto/MovimentacaoResponseDTO";
 import { Movimentacao } from "../model/entidades/Movimentacao";
 
 
@@ -51,7 +52,7 @@ export class MovimentacaoDAO{
             return undefined ;
         }
     }
-    public async buscaTodasMovimentacoes():Promise<Movimentacao[]>{
+    public async buscaTodasMovimentacoes():Promise<MovimentacaoResponseDTO[]>{
         const query = `SELECT * FROM bancaCoxinha.movimentacao`;
         try {
             const resultado = await executarComandoSQL(query,[]);

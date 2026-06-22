@@ -2,6 +2,7 @@ import { Body, Get, Post, Res, Route, Tags, TsoaResponse } from "tsoa";
 import { MovimentacaoService } from "../service/MovimentacaoService";
 import { Movimentacao } from "../model/entidades/Movimentacao";
 import { BasicResponseDTO } from "../model/dto/BasicResponseDTO";
+import { MovimentacaoResponseDTO } from "../model/dto/MovimentacaoResponseDTO";
 
 @Route("pagar")
 @Tags("Movimentações")
@@ -11,10 +12,10 @@ export class MovimentacaoController{
     @Post()
     async inserirMovimentacao(
     @Body() movimentacao:{clienteId:number,coxinhaId:number, valorInserido:number},
-        @Res() fail: TsoaResponse<400,BasicResponseDTO<Movimentacao>>):Promise<BasicResponseDTO<Movimentacao>>{
+        @Res() fail: TsoaResponse<400,BasicResponseDTO<Movimentacao>>):Promise<BasicResponseDTO<MovimentacaoResponseDTO>>{
         try{
             const movimentacaoCriada = await this.movimentacaoService.inserirMovimentacao(movimentacao.clienteId, movimentacao.coxinhaId, movimentacao.valorInserido);
-            return new BasicResponseDTO<Movimentacao>(
+            return new BasicResponseDTO<MovimentacaoResponseDTO>(
                 "Movimentacao criada", 
                 movimentacaoCriada!
             );
@@ -27,8 +28,8 @@ export class MovimentacaoController{
 
     @Get()
     async listaMovimentacoes(
-        @Res() fail: TsoaResponse<400,BasicResponseDTO<Movimentacao[]>>,
-    ):Promise<BasicResponseDTO<Movimentacao[]>>{
+        @Res() fail: TsoaResponse<400,BasicResponseDTO<MovimentacaoResponseDTO[]>>,
+    ):Promise<BasicResponseDTO<MovimentacaoResponseDTO[]>>{
         try {
             const resultado = await this.movimentacaoService.buscarTodasMovimentacoes();
             return new BasicResponseDTO(
@@ -36,7 +37,7 @@ export class MovimentacaoController{
                 resultado
             );
         } catch (error:any) {
-            return fail(400, new BasicResponseDTO<Movimentacao[]>(
+            return fail(400, new BasicResponseDTO<MovimentacaoResponseDTO[]>(
                 error.message || "Erro ao listar movimentações", []   
             ));
         }

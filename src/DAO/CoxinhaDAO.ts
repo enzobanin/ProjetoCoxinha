@@ -56,7 +56,7 @@ export class CoxinhaDAO{
                 'Costela', 12.00,
                 'FrangoCatupiry', 10.00,
                 'Frango', 9.00,
-                'Queijo', 8.50
+                'Queijo', 9.00
             ];
             try{
                 const resultado = await executarComandoSQL(query,valores);

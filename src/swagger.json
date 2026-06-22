@@ -7,6 +7,68 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
+			"MovimentacaoResponseDTO": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"clienteId": {
+						"type": "number",
+						"format": "double"
+					},
+					"coxinhaId": {
+						"type": "number",
+						"format": "double"
+					},
+					"dataHora": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"valorPago": {
+						"type": "number",
+						"format": "double"
+					},
+					"troco": {
+						"type": "number",
+						"format": "double"
+					},
+					"tipoSabor": {
+						"type": "string"
+					},
+					"status": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"clienteId",
+					"coxinhaId",
+					"dataHora",
+					"valorPago",
+					"troco",
+					"tipoSabor",
+					"status"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BasicResponseDTO_MovimentacaoResponseDTO_": {
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"object": {
+						"$ref": "#/components/schemas/MovimentacaoResponseDTO"
+					}
+				},
+				"required": [
+					"message",
+					"object"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"Movimentacao": {
 				"properties": {},
 				"type": "object",
@@ -28,14 +90,14 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"BasicResponseDTO_Movimentacao-Array_": {
+			"BasicResponseDTO_MovimentacaoResponseDTO-Array_": {
 				"properties": {
 					"message": {
 						"type": "string"
 					},
 					"object": {
 						"items": {
-							"$ref": "#/components/schemas/Movimentacao"
+							"$ref": "#/components/schemas/MovimentacaoResponseDTO"
 						},
 						"type": "array"
 					}
@@ -179,7 +241,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/BasicResponseDTO_Movimentacao_"
+									"$ref": "#/components/schemas/BasicResponseDTO_MovimentacaoResponseDTO_"
 								}
 							}
 						}
@@ -238,7 +300,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/BasicResponseDTO_Movimentacao-Array_"
+									"$ref": "#/components/schemas/BasicResponseDTO_MovimentacaoResponseDTO-Array_"
 								}
 							}
 						}
@@ -248,7 +310,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/BasicResponseDTO_Movimentacao-Array_"
+									"$ref": "#/components/schemas/BasicResponseDTO_MovimentacaoResponseDTO-Array_"
 								}
 							}
 						}

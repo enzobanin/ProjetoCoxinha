@@ -52,5 +52,10 @@ export class Movimentacao{
     public setStatusPedido(estado:MovimentacaoState):void{
         this.statusPedido = estado;
     }
-
+    public pagar():void{
+        this.statusPedido.pagar(this)
+    }
+    public estornar():void{
+        this.statusPedido.pagar(this)
+    }
 }

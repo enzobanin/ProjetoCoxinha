@@ -16,6 +16,30 @@ import type { Request as ExRequest, Response as ExResponse, RequestHandler, Rout
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
 const models: TsoaRoute.Models = {
+    "MovimentacaoResponseDTO": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"double","required":true},
+            "clienteId": {"dataType":"double","required":true},
+            "coxinhaId": {"dataType":"double","required":true},
+            "dataHora": {"dataType":"datetime","required":true},
+            "valorPago": {"dataType":"double","required":true},
+            "troco": {"dataType":"double","required":true},
+            "tipoSabor": {"dataType":"string","required":true},
+            "status": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "BasicResponseDTO_MovimentacaoResponseDTO_": {
+        "dataType": "refObject",
+        "properties": {
+            "message": {"dataType":"string","required":true},
+            "object": {"ref":"MovimentacaoResponseDTO","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Movimentacao": {
         "dataType": "refObject",
         "properties": {
@@ -32,11 +56,11 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "BasicResponseDTO_Movimentacao-Array_": {
+    "BasicResponseDTO_MovimentacaoResponseDTO-Array_": {
         "dataType": "refObject",
         "properties": {
             "message": {"dataType":"string","required":true},
-            "object": {"dataType":"array","array":{"dataType":"refObject","ref":"Movimentacao"},"required":true},
+            "object": {"dataType":"array","array":{"dataType":"refObject","ref":"MovimentacaoResponseDTO"},"required":true},
         },
         "additionalProperties": false,
     },
@@ -147,7 +171,7 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsMovimentacaoController_listaMovimentacoes: Record<string, TsoaRoute.ParameterSchema> = {
-                fail: {"in":"res","name":"400","required":true,"ref":"BasicResponseDTO_Movimentacao-Array_"},
+                fail: {"in":"res","name":"400","required":true,"ref":"BasicResponseDTO_MovimentacaoResponseDTO-Array_"},
         };
         app.get('/pagar',
             ...(fetchMiddlewares<RequestHandler>(MovimentacaoController)),

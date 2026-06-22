@@ -1,4 +1,5 @@
 import { MovimentacaoDAO } from "../DAO/MovimentacaoDAO";
+import { MovimentacaoResponseDTO } from "../model/dto/MovimentacaoResponseDTO";
 import { Movimentacao } from "../model/entidades/Movimentacao";
 import { ClienteService } from "./ClienteService";
 import { CoxinhaService } from "./CoxinhaService";
@@ -20,7 +21,7 @@ export class MovimentacaoService{
         return this.instance;
     }
 
-    public async inserirMovimentacao(clienteId: number, coxinhaId:number, valorInserido:number):Promise<Movimentacao|undefined>{
+    public async inserirMovimentacao(clienteId: number, coxinhaId:number, valorInserido:number):Promise<MovimentacaoResponseDTO|undefined>{
         //--Busca a coxinha e pega seu preço
         const coxinha = await this.coxinhaService.buscarCoxinhaPorId(coxinhaId)
         if(!coxinha){
@@ -50,10 +51,26 @@ export class MovimentacaoService{
             coxinha.getSabor()
         );
        const movimentacaoCriada = await this.movimentacaoDao.inserirMovimentacao(movimentacao);
-        return movimentacaoCriada; 
+       movimentacaoCriada; 
+       if(!movimentacaoCriada){
+        return undefined;
+       }
+
+       //mudando o estado de 'Aguardando Pagamento' para 'Pago'
+       movimentacaoCriada.pagar();
+       return new MovimentacaoResponseDTO(
+        movimentacaoCriada.getId(),
+        movimentacaoCriada.getClienteId(),
+        movimentacaoCriada.getCoxinhaId(),
+        movimentacaoCriada.getDataHora(),
+        movimentacaoCriada.getValorPago(),
+        movimentacaoCriada.getTroco(),
+        movimentacaoCriada.getTipoSabor(),
+        movimentacaoCriada.getStatusPedido()
+       )
     }
 
-    public async buscarTodasMovimentacoes():Promise<Movimentacao[]>{
+    public async buscarTodasMovimentacoes():Promise<MovimentacaoResponseDTO[]>{
         return await this.movimentacaoDao.buscaTodasMovimentacoes();
     }
 }
