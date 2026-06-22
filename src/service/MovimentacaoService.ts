@@ -52,6 +52,7 @@ export class MovimentacaoService{
         return await this.movimentacaoDao.buscaTodasMovimentacoes();
     }
 
+    //Função para estorno
     public async estornarMovimentacao(id:number){
         const movimentacao = await this.movimentacaoDao.buscaMovimentacaoPorId(id);
         if(!movimentacao){

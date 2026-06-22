@@ -25,6 +25,26 @@ export class MovimentacaoController{
             ));
         }
     }
+    @Post("estornar")
+    async estornarMovimentacao(
+    @Body() dto:{id:number},
+    @Res() fail: TsoaResponse<400,BasicResponseDTO<boolean>>):Promise<BasicResponseDTO<boolean>>{
+    try {
+        await this.movimentacaoService.estornarMovimentacao(dto.id);
+        return new BasicResponseDTO(
+            "Movimentação estornada com sucesso",
+            true
+        );
+        } catch(error:any){
+            return fail(
+                400,
+                new BasicResponseDTO<boolean>(
+                    error.message || "Erro ao estornar movimentação",
+                    false
+                )
+            );
+        }
+    }
 
     @Get()
     async listaMovimentacoes(

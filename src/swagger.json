@@ -90,6 +90,22 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"BasicResponseDTO_boolean_": {
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"object": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"message",
+					"object"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"BasicResponseDTO_MovimentacaoResponseDTO-Array_": {
 				"properties": {
 					"message": {
@@ -206,22 +222,6 @@
 				],
 				"type": "object",
 				"additionalProperties": false
-			},
-			"BasicResponseDTO_boolean_": {
-				"properties": {
-					"message": {
-						"type": "string"
-					},
-					"object": {
-						"type": "boolean"
-					}
-				},
-				"required": [
-					"message",
-					"object"
-				],
-				"type": "object",
-				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {}
@@ -321,6 +321,57 @@
 				],
 				"security": [],
 				"parameters": []
+			}
+		},
+		"/pagar/estornar": {
+			"post": {
+				"operationId": "EstornarMovimentacao",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDTO_boolean_"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDTO_boolean_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Movimentações"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"id": {
+										"type": "number",
+										"format": "double"
+									}
+								},
+								"required": [
+									"id"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
 			}
 		},
 		"/catalogo/coxinha": {
