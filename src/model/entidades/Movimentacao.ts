@@ -56,6 +56,6 @@ export class Movimentacao{
         this.statusPedido.pagar(this)
     }
     public estornar():void{
-        this.statusPedido.pagar(this)
+        this.statusPedido.estornar(this)
     }
 }

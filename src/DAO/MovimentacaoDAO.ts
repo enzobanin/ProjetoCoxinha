@@ -26,6 +26,7 @@ export class MovimentacaoDAO{
         valorPago FLOAT NOT NULL, 
         troco FLOAT NOT NULL, 
         tipoSabor VARCHAR(20) NOT NULL
+        statusPedido VARCHAR(30) NOT NULL
         )`;
         try{
             const resultado = await executarComandoSQL(query,[]);
@@ -38,10 +39,10 @@ export class MovimentacaoDAO{
         try {
             const resultado =  await executarComandoSQL(
             `INSERT INTO bancaCoxinha.movimentacao(
-            clienteId,coxinhaId,dataHora,valorPago,troco,tipoSabor)
-            VALUES(?,?,?,?,?,?)`,
+            clienteId,coxinhaId,dataHora,valorPago,troco,tipoSabor,statusPedido)
+            VALUES(?,?,?,?,?,?,?)`,
             [movimentacao.getClienteId(), movimentacao.getCoxinhaId(), movimentacao.getDataHora(),
-                movimentacao.getValorPago(),movimentacao.getTroco(),movimentacao.getTipoSabor()
+                movimentacao.getValorPago(),movimentacao.getTroco(),movimentacao.getTipoSabor(), movimentacao.getStatusPedido()
             ]
             );
             console.log('Movimentacao inserida com sucesso: ', resultado);
