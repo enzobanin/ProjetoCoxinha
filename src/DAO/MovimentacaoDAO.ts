@@ -1,7 +1,7 @@
 import { executarComandoSQL } from "../database/mysql";
 import { MovimentacaoResponseDTO } from "../model/dto/MovimentacaoResponseDTO";
 import { Movimentacao } from "../model/entidades/Movimentacao";
-import { MovimentacaoStateFactory } from "../model/MovimentacaoStateFactory/MovimentacaoStateFactory";
+import { MovimentacaoStateFactory } from "../model/movimentacaoStateFactory/MovimentacaoStateFactory";
 
 
 export class MovimentacaoDAO{

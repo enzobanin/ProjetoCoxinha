@@ -1,12 +1,16 @@
 import { SlotNotasDAO } from "../DAO/SlotNotasDAO";
 import { SlotNotas } from "../model/entidades/SlotNotas";
+import { AlertaSlotNotasObserver } from "../model/observer/AlertaSlotNotasIObserver";
+import { NotificadorSlotNotas } from "../model/observer/NotificadorSlotNotas";
 
 export class SlotNotasService{
     private static instance: SlotNotasService;
     private slotNotasDAO : SlotNotasDAO = SlotNotasDAO.getInstance();
-    
+    private notificador = new NotificadorSlotNotas()
 
-    private constructor(){}
+    private constructor(){
+        this.notificador.adicionarObserver(new AlertaSlotNotasObserver());
+    }
 
     static getInstance(){
         if(!this.instance){
@@ -68,6 +72,18 @@ export class SlotNotasService{
     public async processarPagamento(valorInserido:number, valorCoxinha:number):Promise<Map<number,number>>{
         let cedulasTroco = await this.calcularTroco(valorInserido, valorCoxinha)
         await this.debitarCedulas(valorInserido, cedulasTroco)
+        await this.verificarEstoque();
         return cedulasTroco
+    }
+
+    public async verificarEstoque():Promise<void>{
+        const notas = await this.slotNotasDAO.buscaTodosSlots();
+        for(const slot of notas){
+            if(slot.getQuantidade() <= 4){
+                this.notificador.notificar(
+                    `Atenção! Restam apenas ${slot.getQuantidade()} notas de R$${slot.getValorCedula()}`
+                )
+            }
+        }
     }
 }
