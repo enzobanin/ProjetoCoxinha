@@ -232,7 +232,7 @@
 		"description": "Documentacao da API usando Swagger"
 	},
 	"paths": {
-		"/pagar": {
+		"/Movimentações": {
 			"post": {
 				"operationId": "InserirMovimentacao",
 				"responses": {
@@ -323,7 +323,7 @@
 				"parameters": []
 			}
 		},
-		"/pagar/estornar": {
+		"/Movimentações/estornar": {
 			"post": {
 				"operationId": "EstornarMovimentacao",
 				"responses": {
@@ -366,6 +366,62 @@
 								},
 								"required": [
 									"id"
+								],
+								"type": "object"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/Movimentações/trocar-sabor": {
+			"post": {
+				"operationId": "TrocarSabor",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDTO_boolean_"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDTO_boolean_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Movimentações"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"properties": {
+									"novaCoxinhaId": {
+										"type": "number",
+										"format": "double"
+									},
+									"movimentacaoId": {
+										"type": "number",
+										"format": "double"
+									}
+								},
+								"required": [
+									"novaCoxinhaId",
+									"movimentacaoId"
 								],
 								"type": "object"
 							}

@@ -143,7 +143,7 @@ export function RegisterRoutes(app: Router) {
                 movimentacao: {"in":"body","name":"movimentacao","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"valorInserido":{"dataType":"double","required":true},"coxinhaId":{"dataType":"double","required":true},"clienteId":{"dataType":"double","required":true}}},
                 fail: {"in":"res","name":"400","required":true,"ref":"BasicResponseDTO_Movimentacao_"},
         };
-        app.post('/pagar',
+        app.post('/Movimentações',
             ...(fetchMiddlewares<RequestHandler>(MovimentacaoController)),
             ...(fetchMiddlewares<RequestHandler>(MovimentacaoController.prototype.inserirMovimentacao)),
 
@@ -174,7 +174,7 @@ export function RegisterRoutes(app: Router) {
                 dto: {"in":"body","name":"dto","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"id":{"dataType":"double","required":true}}},
                 fail: {"in":"res","name":"400","required":true,"ref":"BasicResponseDTO_boolean_"},
         };
-        app.post('/pagar/estornar',
+        app.post('/Movimentações/estornar',
             ...(fetchMiddlewares<RequestHandler>(MovimentacaoController)),
             ...(fetchMiddlewares<RequestHandler>(MovimentacaoController.prototype.estornarMovimentacao)),
 
@@ -201,10 +201,41 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsMovimentacaoController_trocarSabor: Record<string, TsoaRoute.ParameterSchema> = {
+                dto: {"in":"body","name":"dto","required":true,"dataType":"nestedObjectLiteral","nestedProperties":{"novaCoxinhaId":{"dataType":"double","required":true},"movimentacaoId":{"dataType":"double","required":true}}},
+                fail: {"in":"res","name":"400","required":true,"ref":"BasicResponseDTO_boolean_"},
+        };
+        app.post('/Movimentações/trocar-sabor',
+            ...(fetchMiddlewares<RequestHandler>(MovimentacaoController)),
+            ...(fetchMiddlewares<RequestHandler>(MovimentacaoController.prototype.trocarSabor)),
+
+            async function MovimentacaoController_trocarSabor(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsMovimentacaoController_trocarSabor, request, response });
+
+                const controller = new MovimentacaoController();
+
+              await templateService.apiHandler({
+                methodName: 'trocarSabor',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsMovimentacaoController_listaMovimentacoes: Record<string, TsoaRoute.ParameterSchema> = {
                 fail: {"in":"res","name":"400","required":true,"ref":"BasicResponseDTO_MovimentacaoResponseDTO-Array_"},
         };
-        app.get('/pagar',
+        app.get('/Movimentações',
             ...(fetchMiddlewares<RequestHandler>(MovimentacaoController)),
             ...(fetchMiddlewares<RequestHandler>(MovimentacaoController.prototype.listaMovimentacoes)),
 
