@@ -5,8 +5,11 @@ import { RegisterRoutes } from "./route/routes";
 import { ClienteDAO } from "./DAO/ClienteDAO";
 import { SlotNotasDAO } from "./DAO/SlotNotasDAO";
 import { MovimentacaoDAO } from "./DAO/MovimentacaoDAO";
+import cors from "cors"
 
 const app = express();
+app.use(cors());
+app.use(express.json());
 
 const PORT = 3090;
 
@@ -26,3 +29,5 @@ MovimentacaoDAO.getInstance()
 setupSwagger(app);
 
 app.listen(PORT, ()=> console.log("API online na porta: "+ PORT));
+
+

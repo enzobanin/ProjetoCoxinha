@@ -387,6 +387,37 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsClienteController_buscarClientePorId: Record<string, TsoaRoute.ParameterSchema> = {
+                id: {"in":"path","name":"id","required":true,"dataType":"double"},
+                fail: {"in":"res","name":"400","required":true,"ref":"BasicResponseDTO_ClienteResponseDTO_"},
+        };
+        app.get('/login/cliente/:id',
+            ...(fetchMiddlewares<RequestHandler>(ClienteController)),
+            ...(fetchMiddlewares<RequestHandler>(ClienteController.prototype.buscarClientePorId)),
+
+            async function ClienteController_buscarClientePorId(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsClienteController_buscarClientePorId, request, response });
+
+                const controller = new ClienteController();
+
+              await templateService.apiHandler({
+                methodName: 'buscarClientePorId',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 

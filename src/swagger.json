@@ -623,6 +623,48 @@
 					}
 				}
 			}
+		},
+		"/login/cliente/{id}": {
+			"get": {
+				"operationId": "BuscarClientePorId",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDTO_ClienteResponseDTO_"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BasicResponseDTO_ClienteResponseDTO_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Cliente"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
 		}
 	},
 	"servers": [

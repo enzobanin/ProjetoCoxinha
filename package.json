@@ -3,6 +3,7 @@
     "@types/express": "^5.0.3",
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.8",
+    "cors": "^2.8.6",
     "express": "^5.1.0",
     "mysql2": "^3.14.2",
     "swagger-ui-express": "^5.0.1",
@@ -12,5 +13,8 @@
     "start": "node dist/app.js",
     "build": "npx tsoa spec-and-routes && npx tsc",
     "dev": "ts-node src/app.ts"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19"
   }
 }

@@ -1,4 +1,4 @@
-import { Body, Post, Put, Query, Res, Route, Tags, TsoaResponse } from "tsoa";
+import { Body, Get, Path, Post, Put, Query, Res, Route, Tags, TsoaResponse } from "tsoa";
 import { ClienteService } from "../service/ClienteService";
 import { ClienteResponseDTO } from "../model/dto/ClienteResponseDTO";
 import { BasicResponseDTO } from "../model/dto/BasicResponseDTO";
@@ -56,7 +56,23 @@ export class ClienteController{
             return fail(400,new BasicResponseDTO(error.message, null as any))
         } 
     }
-
+    @Get("{id}")
+    async buscarClientePorId(
+    @Path()id: number,
+    @Res() fail: TsoaResponse<400, BasicResponseDTO<ClienteResponseDTO>>
+    ): Promise<BasicResponseDTO<ClienteResponseDTO>> {
+    try {
+        const cliente = await this.clienteService.buscarClientePorId(id);
+        if(!cliente){
+            throw new Error("Cliente não encontrado");
+        }
+        return new BasicResponseDTO<ClienteResponseDTO>("Cliente encontrado", cliente);
+    } catch (error: any) {
+        return fail(400, new BasicResponseDTO<ClienteResponseDTO>(
+            error.message || "Erro ao buscar cliente", null as any
+        ));
+    }
+}
     
 
 }
