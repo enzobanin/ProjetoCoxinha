@@ -111,6 +111,10 @@ export class MovimentacaoService{
         return await this.movimentacaoDao.atualizarSabor(movimentacaoId, novaCoxinhaId, novaCoxinha.getSabor(),novoValorPago );
     }
 
+    public async buscarMovimentacoesPorCliente(clienteId: number): Promise<MovimentacaoResponseDTO[]> {
+        return await this.movimentacaoDao.buscaMovimentacoesPorCliente(clienteId);
+    }
+
 
 
     //---------------------------------------------------------------------------------

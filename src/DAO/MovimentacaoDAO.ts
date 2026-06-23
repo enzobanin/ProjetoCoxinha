@@ -97,14 +97,25 @@ export class MovimentacaoDAO{
         } 
     }
     public async atualizarSabor(id: number, novaCoxinhaId: number, novoSabor: string, novoValorPago: number): Promise<boolean> {
-    try {
-        const query = `UPDATE bancaCoxinha.movimentacao SET coxinhaId = ?, tipoSabor = ?, valorPago = ?
-        WHERE id = ?`;
-        await executarComandoSQL(query, [novaCoxinhaId, novoSabor, novoValorPago, id]);
-        return true;
-    } catch (error) {
-        console.log("Erro ao trocar sabor", error);
-        return false;
+        try {
+            const query = `UPDATE bancaCoxinha.movimentacao SET coxinhaId = ?, tipoSabor = ?, valorPago = ?
+            WHERE id = ?`;
+            await executarComandoSQL(query, [novaCoxinhaId, novoSabor, novoValorPago, id]);
+            return true;
+        } catch (error) {
+            console.log("Erro ao trocar sabor", error);
+            return false;
+        }
     }
-}
+    public async buscaMovimentacoesPorCliente(clienteId: number): Promise<MovimentacaoResponseDTO[]> {
+        const query = `SELECT * FROM bancaCoxinha.movimentacao WHERE clienteId = ? ORDER BY dataHora DESC`;
+        try {
+            const resultado = await executarComandoSQL(query, [clienteId]);
+            return resultado.map((r:any) => new Movimentacao(r.id, r.clienteId, r.coxinhaId, 
+                r.dataHora, r.valorPago, r.troco, r.tipoSabor));
+        } catch (error) {
+            console.log('Não foi possível exibir as movimentações do cliente', error);
+            return [];
+        }
+    }   
 }

@@ -1,4 +1,4 @@
-import { Body, Get, Post, Res, Route, Tags, TsoaResponse } from "tsoa";
+import { Body, Get, Path, Post, Res, Route, Tags, TsoaResponse } from "tsoa";
 import { MovimentacaoService } from "../service/MovimentacaoService";
 import { Movimentacao } from "../model/entidades/Movimentacao";
 import { BasicResponseDTO } from "../model/dto/BasicResponseDTO";
@@ -84,4 +84,18 @@ export class MovimentacaoController{
             ));
         }
     }
+    @Get("cliente/{clienteId}")
+    async listarPorCliente(
+    @Path() clienteId: number,
+    @Res() fail: TsoaResponse<400, BasicResponseDTO<MovimentacaoResponseDTO[]>>
+    ): Promise<BasicResponseDTO<MovimentacaoResponseDTO[]>> {
+        try {
+            const resultado = await this.movimentacaoService.buscarMovimentacoesPorCliente(clienteId);
+            return new BasicResponseDTO("Movimentações encontradas", resultado);
+        } catch (error: any) {
+            return fail(400, new BasicResponseDTO<MovimentacaoResponseDTO[]>(
+                error.message || "Erro ao listar movimentações", []
+            ));
+        }
+    } 
 }

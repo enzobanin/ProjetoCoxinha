@@ -263,6 +263,37 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsMovimentacaoController_listarPorCliente: Record<string, TsoaRoute.ParameterSchema> = {
+                clienteId: {"in":"path","name":"clienteId","required":true,"dataType":"double"},
+                fail: {"in":"res","name":"400","required":true,"ref":"BasicResponseDTO_MovimentacaoResponseDTO-Array_"},
+        };
+        app.get('/movimentacoes/cliente/:clienteId',
+            ...(fetchMiddlewares<RequestHandler>(MovimentacaoController)),
+            ...(fetchMiddlewares<RequestHandler>(MovimentacaoController.prototype.listarPorCliente)),
+
+            async function MovimentacaoController_listarPorCliente(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsMovimentacaoController_listarPorCliente, request, response });
+
+                const controller = new MovimentacaoController();
+
+              await templateService.apiHandler({
+                methodName: 'listarPorCliente',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsCoxinhaController_listaCoxinhas: Record<string, TsoaRoute.ParameterSchema> = {
                 fail: {"in":"res","name":"400","required":true,"ref":"BasicResponseDTO_CoxinhaResponseDTO-Array_"},
         };
