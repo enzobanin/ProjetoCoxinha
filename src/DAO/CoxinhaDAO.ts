@@ -54,8 +54,8 @@ export class CoxinhaDAO{
             const valores = [
                 'Carne', 9.00,
                 'Costela', 12.00,
-                'FrangoCatupiry', 10.00,
                 'Frango', 9.00,
+                'FrangoCatupiry', 10.00,
                 'Queijo', 9.00
             ];
             try{
@@ -97,7 +97,7 @@ export class CoxinhaDAO{
         ORDER BY sabor`;
         try {
             const resultado = await executarComandoSQL(query,[]);
-            return resultado.map((r:any) => new CoxinhaResponseDTO(r.sabor, r.preco))
+            return resultado.map((r:any) => new CoxinhaResponseDTO(r.id,r.sabor, r.preco))
         } catch (error) {
             console.log('Não foi possível exibir as coxinhas', error);
             return [];

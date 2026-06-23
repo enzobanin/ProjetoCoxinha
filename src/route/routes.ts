@@ -77,6 +77,7 @@ const models: TsoaRoute.Models = {
     "CoxinhaResponseDTO": {
         "dataType": "refObject",
         "properties": {
+            "id": {"dataType":"double","required":true},
             "sabor": {"dataType":"string","required":true},
             "preco": {"dataType":"double","required":true},
         },

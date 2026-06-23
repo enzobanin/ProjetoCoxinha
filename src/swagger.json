@@ -127,6 +127,10 @@
 			},
 			"CoxinhaResponseDTO": {
 				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
 					"sabor": {
 						"type": "string"
 					},
@@ -136,6 +140,7 @@
 					}
 				},
 				"required": [
+					"id",
 					"sabor",
 					"preco"
 				],
