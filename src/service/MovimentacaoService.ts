@@ -107,7 +107,8 @@ export class MovimentacaoService{
         }
         
         await this.clienteService.atualizaSaldo(cliente.id, novoSaldo);
-        return await this.movimentacaoDao.atualizarSabor(movimentacaoId, novaCoxinhaId, novaCoxinha.getSabor());
+        const novoValorPago = novaCoxinha.getPreco() + movimentacao.getTroco()
+        return await this.movimentacaoDao.atualizarSabor(movimentacaoId, novaCoxinhaId, novaCoxinha.getSabor(),novoValorPago );
     }
 
 
