@@ -111,8 +111,8 @@ export class MovimentacaoDAO{
         const query = `SELECT * FROM bancaCoxinha.movimentacao WHERE clienteId = ? ORDER BY dataHora DESC`;
         try {
             const resultado = await executarComandoSQL(query, [clienteId]);
-            return resultado.map((r:any) => new Movimentacao(r.id, r.clienteId, r.coxinhaId, 
-                r.dataHora, r.valorPago, r.troco, r.tipoSabor));
+            return resultado.map((r:any) => new MovimentacaoResponseDTO(r.id, r.clienteId, r.coxinhaId, 
+                r.dataHora, r.valorPago, r.troco, r.tipoSabor, r.statusPedido));
         } catch (error) {
             console.log('Não foi possível exibir as movimentações do cliente', error);
             return [];
