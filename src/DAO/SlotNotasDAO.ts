@@ -19,7 +19,7 @@ export class SlotNotasDAO{
    private async criarTabelaSlotNotas(){
         const query = `CREATE TABLE IF NOT EXISTS bancaCoxinha.slotNotas(
         id INT AUTO_INCREMENT PRIMARY KEY,
-        valorCedula INT (5) NOT NULL,
+        valorCedula INT (5) NOT NULL UNIQUE,
         quantidade INT (5) NOT NULL
         )`;
         try{

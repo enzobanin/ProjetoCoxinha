@@ -7,6 +7,7 @@ export class SlotNotasService{
     private static instance: SlotNotasService;
     private slotNotasDAO : SlotNotasDAO = SlotNotasDAO.getInstance();
     private notificador = new NotificadorSlotNotas()
+    private alertas:string[] = [];
 
     private constructor(){
         this.notificador.adicionarObserver(new AlertaSlotNotasObserver());
@@ -77,13 +78,17 @@ export class SlotNotasService{
     }
 
     public async verificarEstoque():Promise<void>{
+        this.alertas = [];
         const notas = await this.slotNotasDAO.buscaTodosSlots();
         for(const slot of notas){
             if(slot.getQuantidade() <= 4){
-                this.notificador.notificar(
-                    `Atenção! Restam apenas ${slot.getQuantidade()} notas de R$${slot.getValorCedula()}`
-                )
+                const mensagem = `Atenção! Restam apenas ${slot.getQuantidade()} notas de R$${slot.getValorCedula()}`
+                this.alertas.push(mensagem);
+                this.notificador.notificar(mensagem)
             }
         }
+    }
+    public buscarAlertas():string[]{
+        return this.alertas;
     }
 }
