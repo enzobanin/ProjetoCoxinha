@@ -12,7 +12,7 @@
   },
   "scripts": {
     "start": "node dist/app.js",
-    "build": "npx tsoa spec-and-routes && npx tsc",
+    "build": "npx tsoa spec-and-routes && npx tsc && node -e \"require('fs').copyFileSync('src/swagger.json', 'dist/swagger.json')\"",
     "dev": "ts-node src/app.ts"
   },
   "devDependencies": {
