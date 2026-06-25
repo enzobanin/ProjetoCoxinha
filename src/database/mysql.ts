@@ -1,4 +1,4 @@
-import mysql, {Connection, QueryError} from 'mysql2';
+import mysql, {Connection} from 'mysql2';
 import dotenv from 'dotenv';
 
 dotenv.config();
